@@ -24,7 +24,7 @@ def sleep_till_ms_start():
     time.sleep((1 - (t - int(t)))/1000.0)
 
 
-@rerun(getattr(sys, 'subversion', ['CPython'])[0] == 'PyPy' and 5 or 3)
+@rerun(getattr(sys, 'subversion', ['CPython'])[0] == 'PyPy' and 8 or 5)
 def test_generator():
     f3 = fity3.generator(1)
 
