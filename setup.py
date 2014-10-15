@@ -15,8 +15,6 @@ README = open('README.rst').readlines()[3:]
 description = ' '.join(README[:README.index('\n')]).replace('\n', '')
 long_description = ''.join(README[README.index('\n'):])
 
-print long_description
-
 
 class PyTest(TestCommand):
     def finalize_options(self):

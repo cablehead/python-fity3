@@ -17,9 +17,9 @@ bunch of nice properties. An enormous number of roughly-sorted ids can be
 created per second in an uncoordinated manner.
 
 However it's *painful* working with 64 bit integers in environments that use
-IEEE 754 floating points for numerics. Particular `JavaScript
+IEEE 754 floating points for numerics. Particularly `JavaScript
 <https://dev.twitter.com/overview/api/twitter-ids-json-and-snowflake>`_ and the
-`scores for Redis sorted sets
+`scores for Redis' sorted sets
 <http://stackoverflow.com/questions/20295544/redis-sorted-set-wrong-score>`_.
 
 This scheme allows for:
