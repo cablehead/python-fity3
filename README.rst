@@ -18,11 +18,11 @@ can be produced per second with this scheme.
 
     >>> import fity3
     >>> f3 = fity3.generator(1)
-    >>> f3.next()
+    >>> next(f3)
     14127739136
-    >>> f3.next()
+    >>> next(f3)
     14132125952
-    >>> f3.next()
+    >>> next(f3)
     14135079168
 
     # convenience to convert to a unix timestamp
