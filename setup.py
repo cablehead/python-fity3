@@ -12,8 +12,8 @@ metadata = dict(
 
 README = open('README.rst').readlines()
 
-description = ' '.join(README[:README.index('\n')])
-long_description = '\n'.join(README[README.index('\n'):])
+description = ' '.join(README[:README.index('\n')]).replace('\n', '')
+long_description = ''.join(README[README.index('\n'):])
 
 
 class PyTest(TestCommand):

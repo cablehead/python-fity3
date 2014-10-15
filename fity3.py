@@ -1,6 +1,6 @@
 """
 Fity3 is a Twitter snowflake like scheme generator that fits in 53 bits (for
-JavaScript)
+JavaScript, Redis sorted sets, ...)
 
 Its scheme is:
 
