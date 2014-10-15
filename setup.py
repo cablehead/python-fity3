@@ -10,10 +10,12 @@ metadata = dict(
     re.findall("__([a-z]+)__ = '([^']+)'", open('fity3.py').read()))
 
 
-README = open('README.rst').readlines()
+README = open('README.rst').readlines()[3:]
 
 description = ' '.join(README[:README.index('\n')]).replace('\n', '')
 long_description = ''.join(README[README.index('\n'):])
+
+print long_description
 
 
 class PyTest(TestCommand):
