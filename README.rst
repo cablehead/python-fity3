@@ -1,6 +1,9 @@
 Fity3 is a Twitter snowflake like scheme generator that fits in 53 bits (for
 JavaScript, Redis sorted sets, ...)
 
+.. image:: https://travis-ci.org/cablehead/python-fity3.svg?branch=master
+       :target: https://travis-ci.org/cablehead/python-fity3
+
 Its scheme is::
 
     timestamp | worker_id | sequence
