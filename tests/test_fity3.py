@@ -1,34 +1,27 @@
-import time
-import sys
-
 import fity3
 
 
-def rerun(n):
-    def decorate(f):
-        def wrap(*a, **kw):
-            while True:
-                try:
-                    return f(*a, **kw)
-                except AssertionError:
-                    decorate.n = decorate.n - 1
-                    if decorate.n <= 0:
-                        raise
-        return wrap
-    decorate.n = n
-    return decorate
-
-
-def sleep_till_ms_start():
-    t = time.time()*1000
-    time.sleep((1 - (t - int(t)))/1000.0)
-
-
-@rerun(getattr(sys, 'subversion', ['CPython'])[0] == 'PyPy' and 8 or 5)
 def test_generator():
-    f3 = fity3.generator(1)
 
-    sleep_till_ms_start()
+    class Now(object):
+        def __init__(self, now):
+            self.now = now
+            self.log = []
+
+        def __call__(self):
+            return self.now
+
+        def sleep(self, n):
+            self.log.append(n)
+            self.now += n
+            return self
+
+        def clear(self):
+            self.log = []
+
+    now = Now(1413401558001)
+
+    f3 = fity3.generator(1, sleep=now.sleep, now=now)
 
     _id1 = next(f3)
     _id2 = next(f3)
@@ -42,12 +35,15 @@ def test_generator():
 
     # test that we sleep and then wrap to the next millisecond once the
     # sequence is exhausted
-    sleep_till_ms_start()
+    now.sleep(1).clear()
 
     for i in range(256):
         _id1 = next(f3)
 
     _id2 = next(f3)
+
+    assert now.log == [1]
+    now.clear()
 
     assert _id1 & fity3.sequence_mask == 255
     assert _id2 & fity3.sequence_mask == 0
@@ -55,8 +51,6 @@ def test_generator():
 
 
 def test_to_timestamp():
-    f3 = fity3.generator(1)
-    sleep_till_ms_start()
+    f3 = fity3.generator(1, now=lambda: 1413401558001)
     _id = next(f3)
-    t = time.time()
-    assert int(t) == int(fity3.to_timestamp(_id))
+    assert int(fity3.to_timestamp(_id)) == 1413401558

@@ -45,14 +45,31 @@ def to_timestamp(_id):
     return _id
 
 
-def generator(worker_id, sleep=lambda x: time.sleep(x/1000.0)):
+def generator(
+        worker_id,
+        sleep=lambda x: time.sleep(x/1000.0),
+        now=lambda: int(time.time()*1000)):
+    """
+    worker_id: a unique for your *entire* environment number between 0 and 15
+               to identify this generator.
+
+    sleep(n):  function to pause this worker for n milliseconds. you usually
+               want to supply a custom method for this in asynchronous
+               processes.
+
+    now():     function to return a current unix timestamp in milliseconds.
+               useful for testing.
+
+    returns an iterator which yields a series of increasing integers,
+    guaranteed to be unique for this worker_id.
+    """
     assert worker_id >= 0 and worker_id <= max_worker_id
 
     last_timestamp = -1
     sequence = 0
 
     while True:
-        timestamp = int(time.time() * 1000)
+        timestamp = now()
 
         if last_timestamp > timestamp:
             log.warning(
