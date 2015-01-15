@@ -1,3 +1,5 @@
+import pytest
+
 import fity3
 
 
@@ -19,6 +21,9 @@ def test_generator():
         def clear(self):
             self.log = []
 
+    # assert we can start an out of bound worker
+    pytest.raises(AssertionError, next, fity3.generator(256))
+
     now = Now(1413401558001)
 
     f3 = fity3.generator(1, sleep=now.sleep, now=now)
@@ -37,7 +42,7 @@ def test_generator():
     # sequence is exhausted
     now.sleep(1).clear()
 
-    for i in range(256):
+    for i in range(16):
         _id1 = next(f3)
 
     _id2 = next(f3)
@@ -45,7 +50,7 @@ def test_generator():
     assert now.log == [1]
     now.clear()
 
-    assert _id1 & fity3.sequence_mask == 255
+    assert _id1 & fity3.sequence_mask == 15
     assert _id2 & fity3.sequence_mask == 0
     assert _id2 & fity3.timestamp_mask > _id1 & fity3.timestamp_mask
 

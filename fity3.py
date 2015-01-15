@@ -5,15 +5,15 @@ JavaScript, Redis sorted sets, ...)
 Its scheme is:
 
     timestamp | worker_id | sequence
-     41 bits  |  4 bits   |  8 bits
+     41 bits  |  8 bits   |  4 bits
 
 Timestamp is in milliseconds since the epoch allowing for 69 years of ids.
 
 Each id generated per millisecond receives a unique auto incrementing sequence
-number. Each worker can produce 256 ids per millisecond.
+number. Each worker can produce 16 ids per millisecond.
 
-The scheme allows for 16 unique workers, so at most 4 million ids (16*256*1000)
-can be produced per second with this scheme.
+The scheme allows for 256 unique workers, so at most 4 million ids
+(256*16*1000) can be produced per second with this scheme.
 """
 
 import time
@@ -23,15 +23,15 @@ import logging
 log = logging.getLogger(__name__)
 
 
-__version__ = '0.6'
+__version__ = '0.7'
 
 
 # Wed, 15 Oct 2014 11:00:00.000 GMT
 fitepoch = 1413370800000
 
-worker_id_bits = 4
+worker_id_bits = 8
 max_worker_id = -1 ^ (-1 << worker_id_bits)
-sequence_bits = 8
+sequence_bits = 4
 worker_id_shift = sequence_bits
 timestamp_left_shift = sequence_bits + worker_id_bits
 sequence_mask = -1 ^ (-1 << sequence_bits)
@@ -50,7 +50,7 @@ def generator(
         sleep=lambda x: time.sleep(x/1000.0),
         now=lambda: int(time.time()*1000)):
     """
-    worker_id: a unique for your *entire* environment number between 0 and 15
+    worker_id: a unique for your *entire* environment number between 0 and 255
                to identify this generator.
 
     sleep(n):  function to pause this worker for n milliseconds. you usually
