@@ -25,8 +25,8 @@ IEEE 754 floating points for numerics. Particularly `JavaScript
 This scheme allows for:
 
     * 69 years of ids (the same as snowflakes)
-    * at most 16 unique id generating workers
-    * each worker can produce at most 256 ids per millisecond
+    * at most 256 unique id generating workers
+    * each worker can produce at most 16 ids per millisecond
     * so at most 4 million ids per second
 
 If you're building a system in the sweet spot of not being too popular that
