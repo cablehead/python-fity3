@@ -9,7 +9,7 @@ Fity3 is a Twitter snowflake like scheme generator that fits in 53 bits.
 Its scheme is::
 
     timestamp | worker_id | sequence
-     41 bits  |  4 bits   |  8 bits
+     41 bits  |  8 bits   |  4 bits
 
 `Twitter's snowflake scheme
 <https://blog.twitter.com/2010/announcing-snowflake>`_ for id generation has a
